@@ -17,5 +17,5 @@ ser = serial.Serial(
 )
 
 while 1:
-    ser.write('hello')
-
+    ser.write("hello")
+    time.sleep(1)

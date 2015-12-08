@@ -103,7 +103,7 @@ def SendStream(songnumber):
 #         ser.write(bytestosend)
          ser.write(char)
 #         ser.flush()       
-#         time.sleep(0.01)
+#         time.sleep(1)
 
     end = time.time()
     print "time needed: ", end-start
@@ -118,8 +118,14 @@ def GetSoundProperties(songnumber):
     # Get the sample frequency
     framerate = wavefile.getframerate()
     
-    soundsettings= str(samps)+ '-' +str(framerate)
+    #create parameterstring and return it
+    soundsettings= str(samps)+ '_' +str(framerate)
     return soundsettings
+
+
+def AllParams(s, par):
+    soundinfo = str(par)+ '_' +GetSoundProperties(s)
+    return soundinfo
 
 
 def StartMenu():
@@ -224,7 +230,7 @@ def LowPassAmplifyMenu():
          HighPassAmplifyMenu(paramlow)
       elif selection3 =='2':
          print "0dB selected\n"
-         paramlow='0'
+         paramlow='000'
          HighPassAmplifyMenu(paramlow)
       elif selection3 =='3':
          print "-10dB selected\n"
@@ -260,7 +266,7 @@ def HighPassAmplifyMenu(paramlow):
          print "+10dB selected\n"
          AudioMenu(paramhigh)   
       elif selection4 =='2':
-         paramhigh = paramlow+'0'
+         paramhigh = paramlow+'000'
          print "0dB selected\n"   
          AudioMenu(paramhigh)     
       elif selection4 =='3':
@@ -271,7 +277,7 @@ def HighPassAmplifyMenu(paramlow):
          break
       else:
          print "Unknown Option Selected!\n"
-
+ 
 
     
 def AudioMenu(param):
@@ -297,45 +303,60 @@ def AudioMenu(param):
       if selection5 =='1':
          print "Sound1 selected\n"
          print sound1
-         soundinfo = str(param)+ '-' +GetSoundProperties(sound1)
-         ser.write(soundinfo)   
+         ser.write(AllParams(sound1, param))   
          SendStream(sound1)
+         StartMenu()
+
       elif selection5 =='2':
          print "Sound2 selected\n"
          print sound2   
-      #   SendStream(sound2)        
+         ser.write(AllParams(sound2, param))   
+         SendStream(sound2)
+         StartMenu()
+
       elif selection5 =='3':
          print "Sound3 selected\n"
          print sound3
-
+         ser.write(AllParams(sound3, param))   
          SendStream(sound3)
-
+         StartMenu()
 
       elif selection5 =='4':
          print "Sound4 selected\n"
          print sound4
-         ser.write(param)   
-         SendStream(sound4)   
+         ser.write(AllParams(sound4, param))   
+         SendStream(sound4)
+         StartMenu()
+
       elif selection5 =='5':
          print "Sound5 selected\n"
          print sound5
-         ser.write(soundsettings)   
+         ser.write(AllParams(sound5, param))   
          SendStream(sound5)
+         StartMenu()
+
       elif selection5 =='6':
          print "Sound6 selected\n"
          print sound6
+         ser.write(AllParams(sound6, param))   
          SendStream(sound6)
-         ser.write("")   
+         StartMenu()
+
       elif selection5 =='7':
          print "Sound7 selected\n"
          print sound7
+         ser.write(AllParams(sound7, param))   
          SendStream(sound7)
-         ser.write("")   
+         StartMenu()
+
       elif selection5 =='911':
          break
       else:
          print "Unknown Option Selected!\n"
 
+
+
+# draft
 def RobotMonitor():
    # send lisn command to trigger robot node
    ser.write("lisn")
