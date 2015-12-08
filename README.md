@@ -6,7 +6,7 @@
 - 2 Xbee's Series 1
 
 # Software
-[https://pypi.python.org/pypi/pyserial)
+[https://pypi.python.org/pypi/pyserial](https://pypi.python.org/pypi/pyserial)
 
 - Python 2.7
 - Pyserial
