@@ -17,8 +17,8 @@
 This code uses the UART pins on the Raspberry Pi 2 with a baudrate of 57600
  
 
-# Play received wav on pi
-[http://python-sounddevice.readthedocs.org/en/0.2.0/](http://python-sounddevice.readthedocs.org/en/0.2.0/)
+# Play received wav on the pi
+
 ```
 omxplayer --vol "-600" <your_wav_file.wav>
 ```
