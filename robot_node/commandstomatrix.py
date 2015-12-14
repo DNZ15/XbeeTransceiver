@@ -13,18 +13,18 @@ class ComToMatrix():
     def __init__(self):
         bus=smbus.SMBus(1)     #Use '1' for newer Pi boards;
 
-	ADDR1   = 0x20         #The I2C address of MCP23017-1
-	ADDR2   = 0x24         #The I2C address of MCP23017-2
-	DIRA    = 0x00         #PortA I/O direction, by pin. 0=output, 1=input
-	DIRB    = 0x01         #PortB I/O direction, by pin. 0=output, 1=input
-	BANKA   = 0x12         #Register address for Bank A
-	BANKB   = 0x13         #Register address for Bank B
+		ADDR1   = 0x20         #The I2C address of MCP23017-1
+		ADDR2   = 0x24         #The I2C address of MCP23017-2
+		DIRA    = 0x00         #PortA I/O direction, by pin. 0=output, 1=input
+		DIRB    = 0x01         #PortB I/O direction, by pin. 0=output, 1=input
+		BANKA   = 0x12         #Register address for Bank A
+		BANKB   = 0x13         #Register address for Bank B
 
-	#Set up the 23017 for 16 output pins
-	bus.write_byte_data(ADDR1, DIRA, 0);  #all zeros = all outputs on Bank A
-	bus.write_byte_data(ADDR1, DIRB, 0);  #all zeros = all outputs on Bank B
-	bus.write_byte_data(ADDR2, DIRA, 0);  #all zeros = all outputs on Bank A
-	bus.write_byte_data(ADDR2, DIRB, 0);  #all zeros = all outputs on Bank B
+		#Set up the 23017 for 16 output pins
+		bus.write_byte_data(ADDR1, DIRA, 0);  #all zeros = all outputs on Bank A
+		bus.write_byte_data(ADDR1, DIRB, 0);  #all zeros = all outputs on Bank B
+		bus.write_byte_data(ADDR2, DIRA, 0);  #all zeros = all outputs on Bank A
+		bus.write_byte_data(ADDR2, DIRB, 0);  #all zeros = all outputs on Bank B
   
 
 	def set_Left():
