@@ -4,9 +4,12 @@ import time
 import serial
 import threading
 import wave
-
 #exp
 import os
+
+import musicplayer
+from multiprocessing import Queue
+from commandstomatrix import ComToMatrix
 
 ser = serial.Serial(
 
@@ -29,21 +32,29 @@ def ListenForCommands():
 def simplereceive():
 #    received=1
 #    while receive != 0:
+     ctm = ComToMatrix()
      while 1:
         x = ser.readline(4) 
         if x == 'forw':
-           print 'Moving forward'        
+           print 'Moving forward'
+           ctm.set_Forw()         
         elif x == 'back':
            print 'Moving backwards'
+           ctm.set_Back()         
         elif x == 'left':
+           ctm.set_Left()         
            print 'Moving left'
         elif x == 'righ':
+           ctm.set_Right()         
            print 'Moving right'
         elif x == 'fast':
+           ctm.set_Plus()         
            print 'Moving faster'
         elif x == 'slow':
+           ctm.set_Min()         
            print 'Moving slower'
         elif x == 'dead':
+           ctm.set_Dead()         
            print 'Drop dead'
 
 
@@ -79,6 +90,8 @@ def ReceiveAndSaveWav(totframes, fs):
     if os.path.isfile("received.wav"):
         os.remove("received.wav")
 
+    qs = Queue()
+    l = [] 
     wavie = wave.open('received.wav','w')
     #1 channel, 2 bytes, sampfreq, amount of frames
 #    wavie.setparams((1,2,2000,0,'NONE','not compressed'))
@@ -89,6 +102,8 @@ def ReceiveAndSaveWav(totframes, fs):
     for i in range(0, totframes):
 
         char = ser.read(2)
+        bytes = str.encode(char)
+        qs.put(char)
     #    a = char.decode('hex')
         wavie.writeframes(char)
 
@@ -100,10 +115,14 @@ def ReceiveAndSaveWav(totframes, fs):
      
     print "ok"
     wavie.close()
+    while not qs.empty():
+         l.append(qs.get())
+    mp=musicplayer.MusicPlayer(l, fs)
+    mp.start()
 
-#simplereceive()
+simplereceive()
 
-ReadParameters()
+#ReadParameters()
 
 
 
